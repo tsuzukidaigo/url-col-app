@@ -6,6 +6,16 @@ service cloud.firestore {
       allow create;
       allow update: if request.auth.uid == userId;
       allow delete: if request.auth.uid == userId;
+
+      match /directory/{directoryId}{
+        allow read, update, delete: if request.auth.uid == userId;
+        allow create: if request.auth.uid != null;
+
+        match /urls/{urlId}{
+          allow read, update, delete: if request.auth.uid == userId;
+          allow create: if request.auth.uid != null;
+        }
+      }
     }
   }
 }

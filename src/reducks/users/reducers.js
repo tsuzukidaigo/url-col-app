@@ -8,6 +8,30 @@ export const UsersReducer = (state = initialState.users, action) => {
         ...state,
         ...action.payload,
       };
+    case Actions.SIGN_OUT:
+      return {
+        ...action.payload,
+      };
+    case Actions.FETCH_DIRECTORY:
+      return {
+        ...state,
+        directoryList: [...action.payload],
+      };
+    case Actions.DELETE_DIRECTORY:
+      return {
+        ...state,
+        directoryList: [...action.payload],
+      };
+    case Actions.FETCH_URLINFO:
+      return {
+        ...state,
+        urlList: [...action.payload],
+      };
+    case Actions.DELETE_URLINFO:
+      return {
+        ...state,
+        urlList: [...action.payload],
+      };
     default:
       return state;
   }

@@ -1,13 +1,18 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
-import { SignUp, SignIn, UrlList } from './templates';
+import Auth from './Auth';
+import { SignUp, SignIn, Home, FavoriteDirectory, MyDirectory } from './templates';
 
 const Router = () => {
   return (
     <Switch>
       <Route exact path={'/signUp'} component={SignUp} />
       <Route exact path={'/signIn'} component={SignIn} />
-      <Route exact path={'/'} component={UrlList} />
+      <Auth>
+        <Route exact path={'/'} component={Home} />
+        <Route exact path={'/favorite'} component={FavoriteDirectory} />
+        <Route path={'/create/:id'} component={MyDirectory} />
+      </Auth>
     </Switch>
   );
 };
