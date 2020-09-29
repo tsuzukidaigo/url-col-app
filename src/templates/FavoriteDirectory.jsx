@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const FavoriteUrls = () => {
   const classes = useStyles();
   const id = 'favorite';
+
   return (
     <div>
       <Header directoryType={id} />

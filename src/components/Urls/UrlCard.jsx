@@ -6,8 +6,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { useDispatch } from 'react-redux';
 import { deleteUrlInfo } from '../../reducks/users/operations';
+import MediaQuery from 'react-responsive';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   space: {
     marginRight: '1%',
     marginTop: '1%',
@@ -34,35 +35,51 @@ const UrlCard = (props) => {
     setAnchorEl(null);
   };
   return (
-    <div className={classes.space}>
-      <ReactTinyLink
-        cardSize="large"
-        showGraphic={true}
-        header={props.urllist.title}
-        width="15vw"
-        maxLine={2}
-        minLine={1}
-        url={props.urllist.url}
-      />
-      <IconButton>
-        <StarBorderIcon />
-      </IconButton>
-      <IconButton onClick={handleClick} className={classes.menuIcon} color="inherit">
-        <MoreVertIcon />
-      </IconButton>
-      <Divider />
-      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem
-          onClick={() => {
-            dispatch(deleteUrlInfo(urlId, directoryId));
-            handleClose();
-          }}
-        >
-          削除する
-        </MenuItem>
-        <MenuItem>お気に入り</MenuItem>
-      </Menu>
-    </div>
+    <>
+      <MediaQuery minDeviceWidth={600}>
+        <div className={classes.space}>
+          <ReactTinyLink
+            cardSize="large"
+            showGraphic={true}
+            header={props.urllist.title}
+            width="15vw"
+            maxLine={2}
+            minLine={1}
+            url={props.urllist.url}
+          />
+          <IconButton>
+            <StarBorderIcon />
+          </IconButton>
+          <IconButton onClick={handleClick} className={classes.menuIcon} color="inherit">
+            <MoreVertIcon />
+          </IconButton>
+          <Divider />
+          <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+            <MenuItem
+              onClick={() => {
+                dispatch(deleteUrlInfo(urlId, directoryId));
+                handleClose();
+              }}
+            >
+              削除する
+            </MenuItem>
+            <MenuItem>お気に入り</MenuItem>
+          </Menu>
+        </div>
+      </MediaQuery>
+      <MediaQuery maxDeviceWidth={599}>
+        <ReactTinyLink
+          cardSize="small"
+          showGraphic={true}
+          header={props.urllist.title}
+          width="100vw"
+          maxLine={2}
+          minLine={1}
+          url={props.urllist.url}
+        />
+        <Divider />
+      </MediaQuery>
+    </>
   );
 };
 

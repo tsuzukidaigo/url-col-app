@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+//自分で作成したディレクトリの画面
+import React from 'react';
 import Header from '../components/Header/Header';
 import UrlList from './UrlList';
 import SideMenu from '../components/UIKit/SideMenu';
@@ -17,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 const CreateDirectory = () => {
   const classes = useStyles();
   let id = window.location.pathname.split('/create')[1];
-
   if (id !== '') {
     id = id.split('/')[1];
   }

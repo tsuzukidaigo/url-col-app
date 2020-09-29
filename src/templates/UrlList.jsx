@@ -15,8 +15,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '2%',
   },
   urlCard: {
-    display: 'flex',
-    flexFlow: 'row wrap',
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      flexFlow: 'row wrap',
+    },
   },
 }));
 

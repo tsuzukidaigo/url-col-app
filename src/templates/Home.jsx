@@ -4,7 +4,7 @@ import UrlList from './UrlList';
 import SideMenu from '../components/UIKit/SideMenu';
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   line: {
     flexFlow: 'row wrap',
     display: 'flex',
@@ -15,7 +15,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Home = () => {
   const classes = useStyles();
+
   const id = 'mylist';
+
   return (
     <div>
       <Header directoryType={id} />

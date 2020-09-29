@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,18 +9,19 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ClosableDrawer from './ClosableDrawer';
-import Modal from 'react-modal';
-import { Divider, TextField, Button } from '@material-ui/core';
-import { fetchUrlInfo, saveUrl } from '../../reducks/users/operations';
-import { useDispatch } from 'react-redux';
+
+import UrlModal from '../UIKit/UrlModal';
+import { ApiContext } from '../../context/ApiContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   toolbar: {
-    width: '70%',
-    marginLeft: '15%',
+    [theme.breakpoints.up('sm')]: {
+      width: '70%',
+      marginLeft: '15%',
+    },
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -70,34 +71,23 @@ const useStyles = makeStyles((theme) => ({
         width: '20ch',
       },
     },
-  },
-  save: {
-    marginTop: '5%',
-  },
-  space: {
-    marginTop: '5%',
+    [theme.breakpoints.down('sm')]: {
+      width: '6ch',
+      '&:focus': {
+        width: '10ch',
+      },
+    },
   },
 }));
 
 const Header = (props) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const directoryType = props.directoryType;
+  const { directoryType } = props;
 
-  const customStyles = {
-    content: {
-      top: '30%',
-      left: '43%',
-      right: 'auto',
-      bottom: 'auto',
-      width: '20%',
-    },
-  };
-  const [open, setOpen] = useState(false),
-    [modalIsOpen, setModalIsOpen] = useState(false),
-    [modalTitle, setModalTitle] = useState(''),
-    [modalUrlName, setModalUrlName] = useState('');
+  const [open, setOpen] = useState(false);
+  const { modalIsOpen, setModalIsOpen } = useContext(ApiContext);
 
+  //サイトバーの制御
   const handleDrawerToggle = useCallback(
     (event) => {
       if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -106,21 +96,6 @@ const Header = (props) => {
       setOpen(!open);
     },
     [setOpen, open]
-  );
-  Modal.setAppElement('#root');
-
-  const inputModalTitle = useCallback(
-    (event) => {
-      setModalTitle(event.target.value);
-    },
-    [setModalTitle]
-  );
-
-  const inputModalUrlName = useCallback(
-    (event) => {
-      setModalUrlName(event.target.value);
-    },
-    [setModalUrlName]
   );
 
   return (
@@ -160,48 +135,11 @@ const Header = (props) => {
         </AppBar>
         <ClosableDrawer open={open} onClose={handleDrawerToggle} />
       </div>
-      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
-        <div>
-          <Typography className={classes.modalItem}>URL登録</Typography>
-          <Divider />
-          <Typography className={classes.space}>title</Typography>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            label="title"
-            name="title"
-            value={modalTitle}
-            onChange={inputModalTitle}
-          />
-          <Typography>URL</Typography>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            label="URL"
-            name="URL"
-            value={modalUrlName}
-            onChange={inputModalUrlName}
-          />
-          <Divider />
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.save}
-            onClick={() => {
-              dispatch(saveUrl(directoryType, modalTitle, modalUrlName));
-              dispatch(fetchUrlInfo(directoryType));
-              setModalTitle('');
-              setModalUrlName('');
-              setModalIsOpen(!modalIsOpen);
-            }}
-          >
-            保存
-          </Button>
-        </div>
-      </Modal>
+      <UrlModal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        directoryType={directoryType}
+      />
     </>
   );
 };

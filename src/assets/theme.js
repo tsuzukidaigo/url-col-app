@@ -9,6 +9,13 @@ export const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: '"Comic Neue", cursive',
+    fontFamily: 'Roboto',
+    //ボタンのラベルが大文字になるのを防ぐ
+    button: {
+      textTransform: 'none',
+    },
+  },
+  html: {
+    fontSize: '62.5%',
   },
 });

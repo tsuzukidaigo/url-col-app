@@ -1,5 +1,3 @@
-import React from 'react';
-
 const initialState = {
   users: {
     isSignedIn: false,
@@ -8,6 +6,7 @@ const initialState = {
     uid: '',
     directoryList: [],
     urlList: [],
+    searchUrlList: [],
   },
 };
 

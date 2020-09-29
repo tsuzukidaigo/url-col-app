@@ -21,6 +21,7 @@ export const signOutAction = () => {
       username: '',
       directoryList: [],
       urlList: [],
+      searchUrlList: [],
     },
   };
 };
@@ -42,6 +43,13 @@ export const FETCH_URLINFO = 'FETCH_URLINFO';
 export const fetchUrlInfoAction = (urlInfo) => {
   return {
     type: 'FETCH_URLINFO',
+    payload: urlInfo,
+  };
+};
+export const SAVE_URLINFO = 'SAVE_URLINFO';
+export const saveUrlInfoAction = (urlInfo) => {
+  return {
+    type: 'SAVE_URLINFO',
     payload: urlInfo,
   };
 };

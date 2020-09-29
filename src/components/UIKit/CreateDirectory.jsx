@@ -17,9 +17,10 @@ const CreateDirectory = () => {
     <div>
       <ListItem>
         <TextField
+          fullWidth
           variant="outlined"
           margin="normal"
-          label="ディレクトリを追加する"
+          label="ディレクトリ作成"
           name="directory"
           value={directory}
           onChange={inputDirectory}

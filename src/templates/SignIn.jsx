@@ -9,9 +9,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
-import { signIn } from '../reducks/users/operations';
+import { onGoogleSignIn, onTwitterSignIn, signIn } from '../reducks/users/operations';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    [theme.breakpoints.up('sm')]: {
+      border: '1px solid',
+      borderRadius: '8px',
+      borderColor: '#CCCCCC',
+      marginTop: '5%',
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -28,6 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  snsDesign: {
+    border: '1px solid',
+    margin: theme.spacing(1, 0, 1),
+  },
+  snsImage: {
+    marginRight: '5%',
   },
 }));
 
@@ -52,7 +67,7 @@ const SignIn = () => {
   );
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className={classes.container}>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -89,6 +104,41 @@ const SignIn = () => {
           onClick={() => dispatch(signIn(email, password))}
         >
           Sign In
+        </Button>
+        <Button
+          fullWidth
+          className={classes.snsDesign}
+          onClick={() => {
+            dispatch(onGoogleSignIn());
+          }}
+        >
+          <img
+            src="https://img.icons8.com/color/48/000000/google-logo.png"
+            width="8%"
+            height="8%"
+            className={classes.snsImage}
+          />
+          <Typography component="h6" variant="h6">
+            Googleでログイン
+          </Typography>
+        </Button>
+        <Button
+          fullWidth
+          className={classes.snsDesign}
+          onClick={() => {
+            dispatch(onTwitterSignIn());
+          }}
+        >
+          <img
+            src="https://img.icons8.com/cute-clipart/64/000000/twitter.png"
+            width="8%"
+            height="8%"
+            className={classes.snsImage}
+          />
+
+          <Typography component="h6" variant="h6">
+            Twitterでログイン
+          </Typography>
         </Button>
         <p
           onClick={() => {
