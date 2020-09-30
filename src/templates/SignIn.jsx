@@ -12,6 +12,9 @@ import { push } from 'connected-react-router';
 import { onGoogleSignIn, onTwitterSignIn, signIn } from '../reducks/users/operations';
 import EmailError from '../components/UIKit/errors/EmailError';
 import PasswordError from '../components/UIKit/errors/PasswordError';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '8px',
       borderColor: '#CCCCCC',
       marginTop: '5%',
+      boxShadow: '0 0 8px gray',
     },
   },
   paper: {
@@ -54,7 +58,8 @@ const SignIn = () => {
 
   const [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
-    [clickCount, setClickCount] = useState(0);
+    [clickCount, setClickCount] = useState(0),
+    [visible, setVisible] = useState(false);
 
   const inputEmail = useCallback(
     (event) => {
@@ -100,7 +105,7 @@ const SignIn = () => {
           name="password"
           label="Password"
           type="password"
-        />
+        ></TextField>
         <PasswordError password={password} clickCount={clickCount} />
 
         <Button
@@ -157,6 +162,13 @@ const SignIn = () => {
           }}
         >
           アカウント未登録のかたはこちら
+        </p>
+        <p
+          onClick={() => {
+            dispatch(push('/signIn/reset'));
+          }}
+        >
+          パスワードを忘れた方はこちら
         </p>
       </div>
     </Container>

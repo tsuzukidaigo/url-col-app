@@ -183,19 +183,9 @@ export const deleteDirectory = (id) => {
 
 export const signIn = (email, password) => {
   return async (dispatch) => {
-    // if (email === '') {
-    //   const error = 'メールアドレスを入力してください。';
-    //   dispatch(errorOutputAction(error));
-    //   return false;
-    // } else {
-    //   const error = ''
-    //   dispatch(errorOutputAction(error));
-    // }
-    // if (password === '') {
-    //   const error = 'パスワードを入力してください。';
-    //   dispatch(errorOutputAction(error));
-    //   return false;
-    // }
+    if (email === '' || password === '') {
+      return false;
+    }
     auth.signInWithEmailAndPassword(email, password).then((result) => {
       const user = result.user;
       if (user) {
@@ -225,11 +215,9 @@ export const signUp = (username, email, password, confirmPassword) => {
   return async (dispatch) => {
     //Validation
     if (username === '' || email === '' || password === '' || confirmPassword === '') {
-      alert('必須項目が未入力です');
       return false;
     }
     if (password !== confirmPassword) {
-      alert('パスワードが一致していません');
       return false;
     }
     return auth.createUserWithEmailAndPassword(email, password).then((result) => {
@@ -378,5 +366,23 @@ export const signOut = () => {
       dispatch(signOutAction());
       dispatch(push('/signIn'));
     });
+  };
+};
+//パスワードのリセット
+export const resetPassword = (email) => {
+  return async (dispatch) => {
+    if (email === '') {
+      return false;
+    } else {
+      auth
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          alert('入力されたアドレスにパスワードリセット用のメールを送信しました。');
+          dispatch(push('/signIn'));
+        })
+        .catch(() => {
+          alert('パスワードのリセットに失敗しました。通信環境をご確認ください');
+        });
+    }
   };
 };

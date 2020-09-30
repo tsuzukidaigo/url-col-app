@@ -9,6 +9,12 @@ import Container from '@material-ui/core/Container';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { onGoogleSignIn, onTwitterSignIn, signUp } from '../reducks/users/operations';
+import UsernameError from '../components/UIKit/errors/UsernameError';
+import EmailError from '../components/UIKit/errors/EmailError';
+import PasswordError from '../components/UIKit/errors/PasswordError';
+import ConfirmPasswordError from '../components/UIKit/errors/ConfirmPasswordError';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '8px',
       borderColor: '#CCCCCC',
       marginTop: '3%',
+      boxShadow: '0 0 8px gray',
     },
   },
   paper: {
@@ -52,7 +59,8 @@ const SignUp = () => {
   const [username, setUsername] = useState(''),
     [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
-    [confirmPassword, setConfirmPassword] = useState('');
+    [confirmPassword, setConfirmPassword] = useState(''),
+    [clickCount, setClickCount] = useState(0);
 
   const inputUsername = useCallback(
     (event) => {
@@ -98,6 +106,7 @@ const SignUp = () => {
           name="username"
           autoFocus
         />
+        <UsernameError username={username} clickCount={clickCount} />
         <TextField
           variant="outlined"
           margin="normal"
@@ -107,6 +116,7 @@ const SignUp = () => {
           label="Email"
           name="email"
         />
+        <EmailError email={email} clickCount={clickCount} />
         <TextField
           variant="outlined"
           margin="normal"
@@ -117,6 +127,7 @@ const SignUp = () => {
           label="Password"
           type="password"
         />
+        <PasswordError password={password} clickCount={clickCount} />
         <TextField
           variant="outlined"
           margin="normal"
@@ -127,13 +138,21 @@ const SignUp = () => {
           label="Password（確認用）"
           type="password"
         />
+        <ConfirmPasswordError
+          password={password}
+          confirmPassword={confirmPassword}
+          clickCount={clickCount}
+        />
         <Button
           type="submit"
           fullWidth
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
+          onClick={() => {
+            setClickCount(clickCount + 1);
+            dispatch(signUp(username, email, password, confirmPassword));
+          }}
         >
           Sign Up
         </Button>
