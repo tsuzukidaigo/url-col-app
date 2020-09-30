@@ -8,6 +8,12 @@ const initialState = {
     urlList: [],
     searchUrlList: [],
   },
+  errors: {
+    errorUserName: '',
+    errorEmail: '',
+    errorPassword: '',
+    errorComfirmPassword: '',
+  },
 };
 
 export default initialState;

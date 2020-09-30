@@ -183,10 +183,19 @@ export const deleteDirectory = (id) => {
 
 export const signIn = (email, password) => {
   return async (dispatch) => {
-    if (email === '' || password === '') {
-      alert('必須項目が未入力です');
-      return false;
-    }
+    // if (email === '') {
+    //   const error = 'メールアドレスを入力してください。';
+    //   dispatch(errorOutputAction(error));
+    //   return false;
+    // } else {
+    //   const error = ''
+    //   dispatch(errorOutputAction(error));
+    // }
+    // if (password === '') {
+    //   const error = 'パスワードを入力してください。';
+    //   dispatch(errorOutputAction(error));
+    //   return false;
+    // }
     auth.signInWithEmailAndPassword(email, password).then((result) => {
       const user = result.user;
       if (user) {

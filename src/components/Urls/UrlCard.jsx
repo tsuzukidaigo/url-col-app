@@ -69,7 +69,7 @@ const UrlCard = (props) => {
       </MediaQuery>
       <MediaQuery maxDeviceWidth={599}>
         <ReactTinyLink
-          cardSize="small"
+          cardSize="large"
           showGraphic={true}
           header={props.urllist.title}
           width="100vw"
@@ -77,7 +77,24 @@ const UrlCard = (props) => {
           minLine={1}
           url={props.urllist.url}
         />
+        <IconButton>
+          <StarBorderIcon />
+        </IconButton>
+        <IconButton onClick={handleClick} className={classes.menuIcon} color="inherit">
+          <MoreVertIcon />
+        </IconButton>
         <Divider />
+        <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+          <MenuItem
+            onClick={() => {
+              dispatch(deleteUrlInfo(urlId, directoryId));
+              handleClose();
+            }}
+          >
+            削除する
+          </MenuItem>
+          <MenuItem>お気に入り</MenuItem>
+        </Menu>
       </MediaQuery>
     </>
   );

@@ -10,6 +10,8 @@ import Container from '@material-ui/core/Container';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { onGoogleSignIn, onTwitterSignIn, signIn } from '../reducks/users/operations';
+import EmailError from '../components/UIKit/errors/EmailError';
+import PasswordError from '../components/UIKit/errors/PasswordError';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,7 +53,8 @@ const SignIn = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState(''),
-    [password, setPassword] = useState('');
+    [password, setPassword] = useState(''),
+    [clickCount, setClickCount] = useState(0);
 
   const inputEmail = useCallback(
     (event) => {
@@ -77,6 +80,7 @@ const SignIn = () => {
         </Typography>
         <TextField
           variant="outlined"
+          required
           margin="normal"
           fullWidth
           value={email}
@@ -85,8 +89,10 @@ const SignIn = () => {
           name="email"
           autoFocus
         />
+        <EmailError email={email} clickCount={clickCount} />
         <TextField
           variant="outlined"
+          required
           margin="normal"
           fullWidth
           value={password}
@@ -95,13 +101,18 @@ const SignIn = () => {
           label="Password"
           type="password"
         />
+        <PasswordError password={password} clickCount={clickCount} />
+
         <Button
           type="submit"
           fullWidth
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick={() => dispatch(signIn(email, password))}
+          onClick={() => {
+            setClickCount(clickCount + 1);
+            dispatch(signIn(email, password));
+          }}
         >
           Sign In
         </Button>
